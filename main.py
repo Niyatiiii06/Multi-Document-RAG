@@ -16,6 +16,8 @@ for file in pdf_files:
     print(f'\nLoading: {file}')
     loader= PyPDFLoader(file_path)
     documents= loader.load()
+    for doc in documents:
+        doc.metadata['book']= file
     all_docs.extend(documents)
 
     print(f"Pages loaded: {len(documents)}")
