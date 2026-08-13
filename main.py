@@ -1,6 +1,9 @@
 import os
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_mistralai import MistralAIEmbeddings
+from dotenv import load_dotenv
+load_dotenv()
 
 Doc_path= 'docs'
 all_docs=[]
@@ -35,5 +38,13 @@ splitter= RecursiveCharacterTextSplitter(
 chunks= splitter.split_documents(all_docs)
 print("Total pages:", len(all_docs))
 print("Total chunks:", len(chunks))
-print(chunks[0].page_content[:500])
-print(chunks[0].metadata)
+
+embeddings = MistralAIEmbeddings(
+    model="mistral-embed"
+)
+vector = embeddings.embed_query(
+    chunks[0].page_content
+)
+
+print("Vector length:", len(vector))
+print("First 10 values:", vector[:10])
