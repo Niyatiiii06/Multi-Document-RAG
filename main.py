@@ -1,6 +1,7 @@
 import os
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_chroma import Chroma
 from langchain_mistralai import MistralAIEmbeddings
 from dotenv import load_dotenv
 load_dotenv()
@@ -42,9 +43,11 @@ print("Total chunks:", len(chunks))
 embeddings = MistralAIEmbeddings(
     model="mistral-embed"
 )
-vector = embeddings.embed_query(
-    chunks[0].page_content
-)
 
-print("Vector length:", len(vector))
-print("First 10 values:", vector[:10])
+vectorstore = Chroma.from_documents(
+    documents=chunks,
+    embedding=embeddings,
+    persist_directory="chroma_db"
+)
+print("Chunks stored:", len(chunks))
+print("Vector store created successfully.")
