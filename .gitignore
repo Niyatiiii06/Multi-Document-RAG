@@ -1,0 +1,13 @@
+.venv/
+venv/
+__pycache__/
+
+.env
+
+*.pdf
+
+chroma/
+chroma_db/
+
+.vscode/
+.idea/
